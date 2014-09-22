@@ -2,8 +2,7 @@
 #include_recipe "install_chef_client"
 
 # Get the cookbooks
-tabula_rasa_home = '/home/tabula-rasa'
-cookbook_dest = tabula_rasa_home + '/cookbooks'
+cookbook_dest = node[:tabula_rasa][:home_dir] + '/cookbooks'
 ## prepare the destination directory
 directory cookbook_dest do
   recursive true
