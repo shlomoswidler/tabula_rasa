@@ -8,4 +8,5 @@ default[:tabula_rasa][:scm][:user] = null
 default[:tabula_rasa][:scm][:password] = null
 default[:tabula_rasa][:scm][:revision] = null
 default[:tabula_rasa][:scm][:ssh_key] = null
+default[:tabula_rasa][:scm][:enable_submodules] = true
 
