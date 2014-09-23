@@ -22,7 +22,12 @@ remote_file package_dir + '/chef-client-package.deb' do
   notifies :install, 'apt_package[chef-client-package.deb]', :immediately
 end
 
-apt_package 'chef-client-package.deb' do
-  action :nothing
-  source package_dir + '/chef-client-package.deb'
+
+execute "install chef-client deb" do
+    command %Q^
+    cd #{package_dir}
+
+    dpkg -i chef-client-package.deb
+    ^
+  end
 end
