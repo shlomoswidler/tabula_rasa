@@ -1,9 +1,16 @@
-# Prepare the platform
-include_recipe "install_chef_client"
+## Recipes are specified in the Stack Custom JSON in node[:tabula_rasa][:recipes]
+## as a map for the current lifecycle event:
+## { "tabula_rasa" : { 
+##     "recipes" : { 
+##       "configure": [ "mysql::client" ] 
+##     }
+##   }
+## }
+activity = node[:opsworks][:activity]
+recipes = node[:tabula_rasa][:recipes][activity]
+return if recipes.nil? || recipes.size == 0
 
-# Get the cookbooks
-cookbook_dest = node[:tabula_rasa][:home_dir] + '/cookbooks'
-## prepare the destination directory
+# Create directories
 directory node[:tabula_rasa][:home_dir] do
   recursive true
   action :create
@@ -11,6 +18,20 @@ directory node[:tabula_rasa][:home_dir] do
   group node[:opsworks_custom_cookbooks][:group]
   mode 00750
 end
+cookbook_dest = node[:tabula_rasa][:home_dir] + '/cookbooks'
+cache_dir = node[:tabula_rasa][:home_dir] + '/cache'
+
+[ cookbook_dest, cache_dir ].each do |dir| 
+  directory dir do
+    recursive true
+    action :create
+    user node[:opsworks_custom_cookbooks][:user]
+    group node[:opsworks_custom_cookbooks][:group]
+    mode 00750
+  end
+end
+
+# Get the cookbooks
 
 ## From opsworks-cookbooks/opsworks_custom_cookbooks/recipes/checkout.rb
 case node[:opsworks_custom_cookbooks][:scm][:type]
@@ -77,14 +98,21 @@ execute "ensure correct permissions of tabula-rasa cookbooks" do
 end
 
 # Prepare the config for the chef client run
-## Recipes are specified in the Stack Custom JSON in node[:tabula_rasa][:recipes]
-## as a map for the current lifecycle event:
-## { "tabula_rasa" : { 
-##     "recipes" : { 
-##       "configure": [ "mysql::client" ] 
-##     }
-##   }
-## }
+config_file = node[:tabula_rasa][:home_dir] + '/chef-client-config.rb'
+template config_file do
+  source 'chef-client-config.rb.erb'
+  user 'root'
+  group 'root'
+  mode 00400
+end
 
+latest_json_file = ::Dir.glob('/var/lib/aws/opsworks/chef/*').sort.keep_if { |i| i.end_with?('.json') }.last
 
 # Run the chef client
+execute "run chef client" do
+  user 'root'
+  group 'root'
+  cwd node[:tabula_rasa][:home_dir]
+  command "/opt/aws/opsworks/current/bin/chef-client -j #{latest_json_file} -c #{config_file} -o #{recipes.join(',')} 2>&1"
+end
+  
