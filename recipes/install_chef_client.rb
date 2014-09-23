@@ -24,10 +24,5 @@ end
 
 
 execute "install chef-client deb" do
-    command %Q^
-    cd #{package_dir}
-
-    dpkg -i chef-client-package.deb
-    ^
-  end
+  command "cd #{package_dir} && dpkg -i chef-client-package.deb"
 end
