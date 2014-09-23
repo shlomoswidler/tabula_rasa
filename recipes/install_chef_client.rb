@@ -19,10 +19,11 @@ remote_file package_dir + '/chef-client-package.deb' do
   user 'root'
   group 'root'
   mode 00750
-  notifies :install, 'apt_package[chef-client-package.deb]', :immediately
+  notifies :install, 'execute[install chef-client deb]', :immediately
 end
 
 
 execute "install chef-client deb" do
   command "cd #{package_dir} && dpkg -i chef-client-package.deb"
+  action :nothing
 end
