@@ -4,7 +4,7 @@
 # Get the cookbooks
 cookbook_dest = node[:tabula_rasa][:home_dir] + '/cookbooks'
 ## prepare the destination directory
-directory cookbook_dest do
+directory node[:tabula_rasa][:home_dir] do
   recursive true
   action :create
   user node[:opsworks_custom_cookbooks][:user]
