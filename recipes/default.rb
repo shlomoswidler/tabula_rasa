@@ -1,5 +1,5 @@
 # Prepare the platform
-#include_recipe "install_chef_client"
+include_recipe "install_chef_client"
 
 # Get the cookbooks
 cookbook_dest = node[:tabula_rasa][:home_dir] + '/cookbooks'
