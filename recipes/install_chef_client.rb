@@ -22,8 +22,10 @@ remote_file package_dir + '/chef-client-package.deb' do
   notifies :run, 'execute[install chef-client deb]', :immediately
 end
 
-
 execute "install chef-client deb" do
-  command "cd #{package_dir} && dpkg --debug=1 -i chef-client-package.deb"
+  user 'root'
+  group 'root'
+  cwd package_dir
+  command "DEBIAN_FRONTEND=noninteractive dpkg --debug=1 -i chef-client-package.deb"
   action :nothing
 end
