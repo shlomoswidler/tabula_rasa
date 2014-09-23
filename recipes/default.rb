@@ -34,41 +34,41 @@ end
 # Get the cookbooks
 
 ## From opsworks-cookbooks/opsworks_custom_cookbooks/recipes/checkout.rb
-case node[:opsworks_custom_cookbooks][:scm][:type]
+case node[:tabula_rasa][:scm][:type]
 when 'git'
   git "Download Tabula-Rasa Cookbooks" do
-    enable_submodules node[:opsworks_custom_cookbooks][:enable_submodules]
+    enable_submodules node[:tabula_rasa][:scm][:enable_submodules]
     depth nil
 
     user node[:opsworks_custom_cookbooks][:user]
     group node[:opsworks_custom_cookbooks][:group]
     action :checkout
     destination cookbook_dest
-    repository node[:opsworks_custom_cookbooks][:scm][:repository]
-    revision node[:opsworks_custom_cookbooks][:scm][:revision]
+    repository node[:tabula_rasa][:scm][:repository]
+    revision node[:tabula_rasa][:scm][:revision]
     retries 2
     not_if do
-      node[:opsworks_custom_cookbooks][:scm][:repository].blank? || ::File.directory?(cookbook_dest)
+      node[:tabula_rasa][:scm][:repository].blank? || ::File.directory?(cookbook_dest)
     end
   end
 when 'svn'
   subversion "Download Tabula-Rasa Cookbooks" do
-    svn_username node[:opsworks_custom_cookbooks][:scm][:user]
-    svn_password node[:opsworks_custom_cookbooks][:scm][:password]
+    svn_username node[:tabula_rasa][:scm][:user]
+    svn_password node[:tabula_rasa][:scm][:password]
 
     user node[:opsworks_custom_cookbooks][:user]
     group node[:opsworks_custom_cookbooks][:group]
     action :checkout
     destination cookbook_dest
-    repository node[:opsworks_custom_cookbooks][:scm][:repository]
-    revision node[:opsworks_custom_cookbooks][:scm][:revision]
+    repository node[:tabula_rasa][:scm][:repository]
+    revision node[:tabula_rasa][:scm][:revision]
     retries 2
     not_if do
-      node[:opsworks_custom_cookbooks][:scm][:repository].blank? || ::File.directory?(cookbook_dest)
+      node[:tabula_rasa][:scm][:repository].blank? || ::File.directory?(cookbook_dest)
     end
   end
 else
-  raise "unsupported SCM type #{node[:opsworks_custom_cookbooks][:scm][:type].inspect}"
+  raise "unsupported SCM type #{node[:tabula_rasa][:scm][:type].inspect}"
 end
 
 ruby_block 'Move single tabula-rasa cookbook contents into appropriate subdirectory' do
