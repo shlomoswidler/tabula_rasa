@@ -24,6 +24,6 @@ end
 
 
 execute "install chef-client deb" do
-  command "cd #{package_dir} && dpkg -i chef-client-package.deb"
+  command "cd #{package_dir} && dpkg --debug=1 -i chef-client-package.deb"
   action :nothing
 end
