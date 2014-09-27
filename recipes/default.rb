@@ -21,7 +21,7 @@ end
 cookbook_dest = node[:tabula_rasa][:home_dir] + '/cookbooks'
 cache_dir = node[:tabula_rasa][:home_dir] + '/cache'
 
-[ cookbook_dest, cache_dir ].each do |dir| 
+[ cache_dir ].each do |dir| 
   directory dir do
     recursive true
     action :create
