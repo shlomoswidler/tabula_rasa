@@ -1,4 +1,7 @@
 # Based on opsworks-cookbooks/opsworks_berkshelf/providers/runner.rb
+site_cookbooks_dir = ::File.join(node[:tabula_rasa][:home_dir], 'site-cookbooks')
+berkshelf_cookbooks_dir = ::File.join(node[:tabula_rasa][:home_dir],'berkshelf-cookbooks')
+
 berks_install_options = if node['opsworks-berkshelf'] && node['opsworks_berkshelf']['version'].to_i >= 3
   "vendor #{berkshelf_cookbooks_dir}"
 else
@@ -7,9 +10,6 @@ end
 
 berks_install_options += ' --debug' if node['opsworks-berkshelf'] && node['opsworks_berkshelf']['debug']
 berks_install_command = "/opt/aws/opsworks/local/bin/berks #{berks_install_options}"
-
-site_cookbooks_dir = ::File.join(node[:tabula_rasa][:home_dir], 'site-cookbooks')
-berkshelf_cookbooks_dir = ::File.join(node[:tabula_rasa][:home_dir],'berkshelf-cookbooks')
 
 directory berkshelf_cookbooks_dir do
   action :delete
