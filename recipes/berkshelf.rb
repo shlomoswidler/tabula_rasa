@@ -24,7 +24,7 @@ ruby_block 'Install the cookbooks specified in the Tabula Rasa\'s cookbook Berks
   end
 
   only_if do
-    OpsWorks::Berkshelf.berkshelf_installed? && ::File.exist?(berksfile)
+    ::File.exist?('/opt/aws/opsworks/local/bin/berks') && ::File.exist?(berksfile)
   end
 end
 
@@ -51,5 +51,5 @@ def berks_install_command
 
   options += ' --debug' if node['opsworks_berkshelf']['debug']
 
-  "#{OpsWorks::Berkshelf.berkshelf_binary} #{options}"
+  "/opt/aws/opsworks/local/bin/berks #{options}"
 end
