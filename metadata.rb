@@ -1,8 +1,8 @@
 name             'tabula_rasa'
 maintainer       'Shlomo Swidler'
 maintainer_email 'shlomo.swidler@orchestratus.com'
-license          'Apache License 2.0'
-description      'Allow community cookbooks to run without interference from AWS OpsWorks cookbooks'
+license          'Copyright 2014, Shlomo Swidler. All Rights Reserved'
+description      'Experiment'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
 
