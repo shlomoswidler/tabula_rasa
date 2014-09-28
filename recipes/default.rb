@@ -72,7 +72,7 @@ else
   raise "unsupported SCM type #{node[:tabula_rasa][:scm][:type].inspect}"
 end
 
-ruby_block 'Move single tabula-rasa cookbook contents into appropriate subdirectory' do
+ruby_block 'Move single Tabula-Rasa cookbook contents into appropriate subdirectory' do
   block do
     cookbook_name = File.readlines(File.join(site_cookbooks_path, 'metadata.rb')).detect{|line| line.match(/^\s*name\s+\S+$/)}[/name\s+['"]([^'"]+)['"]/, 1]
     cookbook_path = File.join(site_cookbooks_path, cookbook_name)
@@ -90,14 +90,14 @@ end
 
 include_recipe "tabula_rasa::berkshelf"
 
-execute "ensure correct permissions of tabula-rasa site cookbooks" do
+execute "ensure correct permissions of Tabula-Rasa site cookbooks" do
   command "chmod -R go-rwx #{site_cookbooks_path}"
   only_if do
     ::File.exists?(site_cookbooks_path)
   end
 end
 
-ruby_block 'merge all tabula rasa cookbooks sources' do
+ruby_block 'merge all Tabula-Rasa cookbooks sources' do
   block do
      FileUtils.rm_rf merged_cookbooks_path
      FileUtils.cp_r "#{berkshelf_cookbooks_path}/.", merged_cookbooks_path if ::File.directory?(berkshelf_cookbooks_path)
@@ -116,10 +116,11 @@ template config_file do
   mode 00400
 end
 
+# Assumption: The most recent JSON file is the one for the current OpsWorks agent invocation.
 latest_json_file = ::Dir.glob('/var/lib/aws/opsworks/chef/*').sort.keep_if { |i| i.end_with?('.json') }.last
 
 # Run the chef client
-ruby_block 'run Tabula Rasa chef-client' do
+ruby_block 'run Tabula-Rasa chef-client' do
   block do
     Chef::Log.info OpsWorks::ShellOut.shellout(
       "/opt/aws/opsworks/current/bin/chef-client -j #{latest_json_file} -c #{config_file} -o #{recipes.join(',')} 2>&1",
