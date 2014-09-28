@@ -18,17 +18,17 @@ directory node[:tabula_rasa][:home_dir] do
   group node[:opsworks_custom_cookbooks][:group]
   mode 00750
 end
+
 cookbook_dest = node[:tabula_rasa][:home_dir] + '/cookbooks'
+merged_cookbooks_dest = node[:tabula_rasa][:home_dir] + '/merged-cookbooks'
 cache_dir = node[:tabula_rasa][:home_dir] + '/cache'
 
-[ cache_dir ].each do |dir| 
-  directory dir do
-    recursive true
-    action :create
-    user node[:opsworks_custom_cookbooks][:user]
-    group node[:opsworks_custom_cookbooks][:group]
-    mode 00750
-  end
+directory cache_dir do
+  recursive true
+  action :create
+  user node[:opsworks_custom_cookbooks][:user]
+  group node[:opsworks_custom_cookbooks][:group]
+  mode 00750
 end
 
 # Get the cookbooks
@@ -89,10 +89,10 @@ end
 
 include_recipe "tabula_rasa::berkshelf"
 
-execute "ensure correct permissions of tabula-rasa cookbooks" do
-  command "chmod -R go-rwx #{cookbook_dest}"
+execute "ensure correct permissions of merged cookbooks" do
+  command "chmod -R go-rwx #{merged_cookbooks_dest}"
   only_if do
-    ::File.exists?(cookbook_dest)
+    ::File.exists?(merged_cookbooks_dest)
   end
 end
 
@@ -100,6 +100,8 @@ end
 config_file = node[:tabula_rasa][:home_dir] + '/chef-client-config.rb'
 template config_file do
   source 'chef-client-config.rb.erb'
+  variables( :cookbooks_path => merged_cookbooks_dest,
+    :cache_path => cache_dir )
   user 'root'
   group 'root'
   mode 00400
