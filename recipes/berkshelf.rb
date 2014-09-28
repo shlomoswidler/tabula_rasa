@@ -40,7 +40,9 @@ ruby_block 'Install the cookbooks specified in the Tabula Rasa cookbook\'s Berks
       berks_install_command,
       :cwd => ::File.dirname(berksfile),
       :environment  => {
-        "BERKSHELF_PATH" => ::File.join(node[:tabula_rasa][:home_dir], 'cache')
+        "BERKSHELF_PATH" => ::File.join(node[:tabula_rasa][:home_dir], 'cache'),
+        "LC_ALL" => "en_US.UTF-8",
+        "LANG" => "en_US.UTF-8"
       }
     )
   end
