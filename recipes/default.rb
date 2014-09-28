@@ -20,8 +20,8 @@ directory node[:tabula_rasa][:home_dir] do
 end
 
 site_cookbooks_dir = ::File.join(node[:tabula_rasa][:home_dir], 'site-cookbooks')
-merged_cookbooks_dest = node[:tabula_rasa][:home_dir] + '/merged-cookbooks'
-cache_dir = node[:tabula_rasa][:home_dir] + '/cache'
+merged_cookbooks_dest = ::File.join(node[:tabula_rasa][:home_dir], 'merged-cookbooks')
+cache_dir = ::File.join(node[:tabula_rasa][:home_dir], 'cache')
 
 directory cache_dir do
   recursive true
@@ -97,7 +97,7 @@ execute "ensure correct permissions of merged cookbooks" do
 end
 
 # Prepare the config for the chef client run
-config_file = node[:tabula_rasa][:home_dir] + '/chef-client-config.rb'
+config_file = ::File.join(node[:tabula_rasa][:home_dir], 'chef-client-config.rb')
 template config_file do
   source 'chef-client-config.rb.erb'
   variables( :cookbooks_path => merged_cookbooks_dest,
