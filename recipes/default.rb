@@ -77,7 +77,7 @@ ruby_block 'Move single tabula-rasa cookbook contents into appropriate subdirect
     cookbook_name = File.readlines(File.join(site_cookbooks_path, 'metadata.rb')).detect{|line| line.match(/^\s*name\s+\S+$/)}[/name\s+['"]([^'"]+)['"]/, 1]
     cookbook_path = File.join(site_cookbooks_path, cookbook_name)
     Chef::Log.info "Single cookbook detected, moving into subdirectory '#{site_cookbooks_path}'"
-    FileUtils.mkdir(site_cookbooks_path)
+    FileUtils.mkdir(cookbook_path)
     Dir.glob(File.join(site_cookbooks_path, '*'), File::FNM_DOTMATCH).each do |cookbook_content|
       FileUtils.mv(cookbook_content, cookbook_path, :force => true)
     end
