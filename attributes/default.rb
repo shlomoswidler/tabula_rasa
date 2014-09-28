@@ -1,3 +1,5 @@
+include_attribute "opsworks_berkshelf::default"
+
 default[:tabula_rasa][:chef_version] = '11.10'
 default[:tabula_rasa][:recipes] = {}
 default[:tabula_rasa][:home_dir] = '/home/tabula-rasa'
