@@ -3,4 +3,6 @@ source 'http://localhost:8889' # For OpsWorks to lock down the cookbooks
 
 metadata
 
-#cookbook "opsworks_berkshelf", path: "/opt/aws/opsworks/current/cookbooks/opsworks_berkshelf"
+Dir.glob['/opt/aws/opsworks/current/cookbooks/**'].each do |path|
+  cookbook File.basename(path), path: path
+end
