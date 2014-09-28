@@ -109,7 +109,7 @@ end
 config_file = ::File.join(node[:tabula_rasa][:home_dir], 'chef-client-config.rb')
 template config_file do
   source 'chef-client-config.rb.erb'
-  variables( :cookbooks_path => merged_cookbooks_path,
+  variables( :cookbook_path => merged_cookbooks_path,
     :cache_path => cache_dir )
   user 'root'
   group 'root'
