@@ -2,20 +2,13 @@
 site_cookbooks_dir = ::File.join(node[:tabula_rasa][:home_dir], 'site-cookbooks')
 berkshelf_cookbooks_dir = ::File.join(node[:tabula_rasa][:home_dir],'berkshelf-cookbooks')
 
-ruby_block "show opsworks chef attributes" do
-  block do
-    puts "ATTENTION: opsworks_berkshelf: #{node['opsworks_berkshelf'].inspect}"
-    puts "ATTENTION: opsworks_custom_cookbooks: #{node['opsworks_custom_cookbooks'].inspect}"
-  end
-end
-
-berks_install_options = if node['opsworks-berkshelf'] && node['opsworks_berkshelf']['version'].to_i >= 3
+berks_install_options = if node['opsworks_berkshelf'] && node['opsworks_berkshelf']['version'].to_i >= 3
   "vendor #{berkshelf_cookbooks_dir}"
 else
   "install --path #{berkshelf_cookbooks_dir}"
 end
 
-berks_install_options += ' --debug' if node['opsworks-berkshelf'] && node['opsworks_berkshelf']['debug']
+berks_install_options += ' --debug' if node['opsworks_berkshelf'] && node['opsworks_berkshelf']['debug']
 berks_install_command = "/opt/aws/opsworks/local/bin/berks #{berks_install_options}"
 
 directory berkshelf_cookbooks_dir do
