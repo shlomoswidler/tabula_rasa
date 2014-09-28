@@ -119,10 +119,12 @@ end
 latest_json_file = ::Dir.glob('/var/lib/aws/opsworks/chef/*').sort.keep_if { |i| i.end_with?('.json') }.last
 
 # Run the chef client
-execute "run chef client" do
-  user 'root'
-  group 'root'
-  cwd node[:tabula_rasa][:home_dir]
-  command "/opt/aws/opsworks/current/bin/chef-client -j #{latest_json_file} -c #{config_file} -o #{recipes.join(',')} 2>&1"
+ruby_block 'run Tabula Rasa chef-client' do
+  block do
+    Chef::Log.info OpsWorks::ShellOut.shellout(
+      "/opt/aws/opsworks/current/bin/chef-client -j #{latest_json_file} -c #{config_file} -o #{recipes.join(',')} 2>&1",
+      :cwd => node[:tabula_rasa][:home_dir]
+    )
+  end
 end
-  
+
