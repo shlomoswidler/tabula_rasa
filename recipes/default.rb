@@ -19,7 +19,7 @@ directory node[:tabula_rasa][:home_dir] do
   mode 00750
 end
 
-cookbook_dest = node[:tabula_rasa][:home_dir] + '/cookbooks'
+site_cookbooks_dir = ::File.join(node[:tabula_rasa][:home_dir], 'site-cookbooks')
 merged_cookbooks_dest = node[:tabula_rasa][:home_dir] + '/merged-cookbooks'
 cache_dir = node[:tabula_rasa][:home_dir] + '/cache'
 
@@ -43,12 +43,12 @@ when 'git'
     user node[:opsworks_custom_cookbooks][:user]
     group node[:opsworks_custom_cookbooks][:group]
     action :checkout
-    destination cookbook_dest
+    destination site_cookbooks_dir
     repository node[:tabula_rasa][:scm][:repository]
     revision node[:tabula_rasa][:scm][:revision]
     retries 2
     not_if do
-      node[:tabula_rasa][:scm][:repository].blank? || ::File.directory?(cookbook_dest)
+      node[:tabula_rasa][:scm][:repository].blank? || ::File.directory?(site_cookbooks_dir)
     end
   end
 when 'svn'
@@ -59,12 +59,12 @@ when 'svn'
     user node[:opsworks_custom_cookbooks][:user]
     group node[:opsworks_custom_cookbooks][:group]
     action :checkout
-    destination cookbook_dest
+    destination site_cookbooks_dir
     repository node[:tabula_rasa][:scm][:repository]
     revision node[:tabula_rasa][:scm][:revision]
     retries 2
     not_if do
-      node[:tabula_rasa][:scm][:repository].blank? || ::File.directory?(cookbook_dest)
+      node[:tabula_rasa][:scm][:repository].blank? || ::File.directory?(site_cookbooks_dir)
     end
   end
 else
@@ -73,17 +73,17 @@ end
 
 ruby_block 'Move single tabula-rasa cookbook contents into appropriate subdirectory' do
   block do
-    cookbook_name = File.readlines(File.join(cookbook_dest, 'metadata.rb')).detect{|line| line.match(/^\s*name\s+\S+$/)}[/name\s+['"]([^'"]+)['"]/, 1]
-    cookbook_path = File.join(cookbook_dest, cookbook_name)
-    Chef::Log.info "Single cookbook detected, moving into subdirectory '#{cookbook_path}'"
-    FileUtils.mkdir(cookbook_path)
-    Dir.glob(File.join(cookbook_dest, '*'), File::FNM_DOTMATCH).each do |cookbook_content|
+    cookbook_name = File.readlines(File.join(site_cookbooks_dir, 'metadata.rb')).detect{|line| line.match(/^\s*name\s+\S+$/)}[/name\s+['"]([^'"]+)['"]/, 1]
+    cookbook_path = File.join(site_cookbooks_dir, cookbook_name)
+    Chef::Log.info "Single cookbook detected, moving into subdirectory '#{site_cookbooks_dir}'"
+    FileUtils.mkdir(site_cookbooks_dir)
+    Dir.glob(File.join(site_cookbooks_dir, '*'), File::FNM_DOTMATCH).each do |cookbook_content|
       FileUtils.mv(cookbook_content, cookbook_path, :force => true)
     end
   end
 
   only_if do
-    ::File.exists?(metadata = File.join(cookbook_dest, 'metadata.rb')) && File.read(metadata).match(/^\s*name\s+\S+$/)
+    ::File.exists?(metadata = File.join(site_cookbooks_dir, 'metadata.rb')) && File.read(metadata).match(/^\s*name\s+\S+$/)
   end
 end
 
