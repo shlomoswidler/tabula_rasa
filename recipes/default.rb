@@ -87,8 +87,7 @@ ruby_block 'Move single tabula-rasa cookbook contents into appropriate subdirect
   end
 end
 
-## TODO: Will this work?? Probably not.
-#include_recipe "opsworks_custom_cookbooks::berkshelf"
+include_recipe "tabula_rasa::berkshelf"
 
 execute "ensure correct permissions of tabula-rasa cookbooks" do
   command "chmod -R go-rwx #{cookbook_dest}"
