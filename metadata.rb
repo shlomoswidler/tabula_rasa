@@ -8,4 +8,4 @@ version          '0.1.0'
 
 supports "ubuntu", "= 12.04"
 
-recipe "default", "Sets up and runs the tabula-rasa recipes"
+recipe "default", "Sets up and runs"
