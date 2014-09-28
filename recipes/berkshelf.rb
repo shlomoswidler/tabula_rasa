@@ -8,7 +8,7 @@ directory berkshelf_cookbooks_dir do
   recursive true
 
   only_if do
-    node['opsworks_berkshelf']['version'].to_i >= 3
+    node['opsworks_berkshelf'] && node['opsworks_berkshelf']['version'].to_i >= 3
   end
 end
 
@@ -24,7 +24,7 @@ ruby_block 'Install the cookbooks specified in the Tabula Rasa\'s cookbook Berks
   end
 
   only_if do
-    ::File.exist?(::File.join('/opt/aws/opsworks/local/bin', 'berks')) && ::File.exist?(berksfile)
+    OpsWorks::Berkshelf.berkshelf_installed? && ::File.exist?(berksfile)
   end
 end
 
