@@ -8,4 +8,6 @@ version          '0.1.0'
 
 supports "ubuntu", "= 12.04"
 
+depends "opsworks_berkshelf"
+
 recipe "default", "Sets up and runs"
