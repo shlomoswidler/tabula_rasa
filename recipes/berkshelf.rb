@@ -24,7 +24,7 @@ ruby_block 'Install the cookbooks specified in the Tabula Rasa\'s cookbook Berks
   end
 
   only_if do
-    ::File.exist?(::File.join('/opt/aws/opsworks/local/bin', 'berks') && ::File.exist?(berksfile)
+    ::File.exist?(::File.join('/opt/aws/opsworks/local/bin', 'berks')) && ::File.exist?(berksfile)
   end
 end
 
