@@ -3,8 +3,8 @@ Ohai::Config[:plugin_path] << "/opt/aws/opsworks/current/plugins"
 
 local_mode true
 chef_zero.port 8089
-cookbook_path ["<%= node[:tabula_rasa][:home_dir] + '/cookbooks' %>"]
-file_cache_path "<%= node[:tabula_rasa][:home_dir] + '/cache' %>"
+cookbook_path ["<%= @cookbook_path %>"]
+file_cache_path "<%= @cache_path %>"
 node_path "/var/lib/aws/opsworks/data/nodes"
 data_bag_path "/var/lib/aws/opsworks/data/data_bags"
 log_level :info
