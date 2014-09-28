@@ -20,7 +20,7 @@ directory berkshelf_cookbooks_dir do
   end
 end
 
-ruby_block 'Install the cookbooks specified in the Tabula Rasa\'s cookbook Berksfile and their dependencies' do
+ruby_block 'Install the cookbooks specified in the Tabula Rasa cookbook\'s Berksfile and their dependencies' do
   block do
     
     # TODO: This snippet is repeated in the only_if block below. Bad style.
