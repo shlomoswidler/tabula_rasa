@@ -11,3 +11,4 @@ supports "ubuntu", "= 12.04"
 depends "opsworks_berkshelf"
 
 recipe "default", "Sets up and runs"
+recipe "update_tabula_rasa_cookbooks", "Updates the Tabla Rasa cookbooks"
