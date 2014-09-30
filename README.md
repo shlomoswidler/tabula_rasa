@@ -17,7 +17,7 @@ Tabula Rasa repositories can support Berkshelf. Berkshelf will be invoked if the
 
 To use Tabula Rasa:
 
-1. Use Tabla Rasa `git://github.com/shlomoswidler/tabula_rasa.git` as the Custom Repository URL for your Layer (or for the entire Stack), or include this cookbook in your own custom cookbook repository (perhaps via Berkshelf).
+1. Use Tabla Rasa `git://github.com/shlomoswidler/tabula_rasa.git` as the Custom Repository URL for your Layer (or for the entire Stack), or include this cookbook in your own custom cookbook repository (perhaps via Berkshelf - and be sure to pull in the opsworks-cookbooks as done by this cookbook's Berksfile).
 2. Configure your Custom Stack JSON as per [the Configuration section below](#configuration), to specify the repository from which the Tabula Rasa cookbooks are retrieved, and the custom run list for each OpsWorks lifecycle action.
 3. Include the `tabula_rasa` recipe in the OpsWorks Layer's Custom Chef Recipes for each lifecycle action. You can specify other recipes before and after `tabula_rasa` in the Custom Chef Recipes---Tabula Rasa will have no effect on them and they will run normally, as expected, using the custom cookbook repository you specified for this Layer.
 
