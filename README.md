@@ -21,6 +21,8 @@ To use Tabula Rasa:
 2. Configure your Custom Stack JSON as per [the Configuration section below](#configuration), to specify the repository from which the Tabula Rasa cookbooks are retrieved, and the custom run list for each OpsWorks lifecycle action.
 3. Include the `tabula_rasa` recipe in the OpsWorks Layer's Custom Chef Recipes for each lifecycle action. You can specify other recipes before and after `tabula_rasa` in the Custom Chef Recipes---Tabula Rasa will have no effect on them and they will run normally, as expected, using the custom cookbook repository you specified for this Layer.
 
+To update the Tabula Rasa cookbooks from their repository (and possibly re-run Berkshelf, if it is configured to run) run the recipe `update_tabula_rasa_cookbooks`. Unfortunately, OpsWorks offers no hooks to allow you to seamlessly refresh the Tabula Rasa cookbooks when you perform an Update Custom Cookbooks.
+
 # Configuration
 The OpsWorks Custom Stack JSON should be used to specify the following items:
 
