@@ -8,7 +8,7 @@ Issues? https://github.com/shlomoswidler/tabula_rasa/issues
 
 Run community cookbooks from within AWS OpsWorks without clashing with the older versions in [opsworks-cookbooks](https://github.com/aws/opsworks-cookbooks). Recipes run from within Tabula Rasa will not have access to the opsworks-cookbooks (unless you include them in your repository) but they will see your Custom Stack JSON and all the Ohai settings added by the AWS OpsWorks Agent.
 
-Version 0.1.0 has only been tested on Ubuntu 12.04, and only supports Git and SVN repositories.
+Version 0.1.0 has only been tested with Chef 11.10, on Ubuntu 12.04, and only supports Git and SVN repositories.
 
 # Usage
 AWS OpsWorks has several lifecycle actions: `setup`, `configure`, `deploy`, `undeploy`, and `shutdown`. In Custom layers you can specify the custom list of recipes to run for each action. With Tabula Rasa, you specify the run list in the Custom Stack JSON, as well as the repository from which to pull the Tabula Rasa cookbooks.
