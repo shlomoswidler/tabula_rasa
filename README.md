@@ -12,8 +12,10 @@ AWS OpsWorks has several lifecycle actions: `setup`, `configure`, `deploy`, `und
 Tabula Rasa repositories can support Berkshelf. Berkshelf will be invoked if the Stack Settings also enable Berkshelf for the Stack's Custom Cookbook Repository.
 
 To use Tabula Rasa:
-1. Configure your Custom Stack JSON as per the Configuration section below, to specify the repository from which the Tabula Rasa cookbooks are retrieved, and the custom run list for each OpsWorks lifecycle action.
-2. Include the `tabula_rasa` recipe in the OpsWorks Layer for each lifecycle action.
+
+1. Use Tabla Rasa `git://github.com/shlomoswidler/tabula_rasa.git` as the Custom Repository URL for your Layer (or for the entire Stack), or include this cookbook in your own custom cookbook repository (perhaps via Berkshelf).
+2. Configure your Custom Stack JSON as per the Configuration section below, to specify the repository from which the Tabula Rasa cookbooks are retrieved, and the custom run list for each OpsWorks lifecycle action.
+3. Include the `tabula_rasa` recipe in the OpsWorks Layer's Custom Chef Recipes for each lifecycle action. You can specify other recipes before and after `tabula_rasa` in the Custom Chef Recipes---Tabula Rasa will have no effect on them and they will run normally, as expected, using the custom cookbook repository you specified for this Layer.
 
 # Configuration
 The OpsWorks Custom Stack JSON should be used to specify the following items:
@@ -48,6 +50,6 @@ The repository SSH key specified in the Stack Settings will be used, if necessar
 }
 ```
 
-Each entry in the `[:tabula_rasa][:recipes]` hash corresponds to the run list for that lifecycle action.
-You can omit any lifecycle action that does not need a custom Tabula Rasa run list.
+Each entry in the `[:tabula_rasa][:recipes]` hash corresponds to the run list for that lifecycle action. These recipes will be run as the `tabula_rasa` recipe is executed during the converge stage of the Chef run. You can omit from the hash any lifecycle action that does not need a custom Tabula Rasa run list.
+
 
