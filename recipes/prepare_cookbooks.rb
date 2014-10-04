@@ -3,8 +3,33 @@ berkshelf_cookbooks_path = ::File.join(node[:tabula_rasa][:home_dir], 'berkshelf
 merged_cookbooks_path = ::File.join(node[:tabula_rasa][:home_dir], 'merged-cookbooks')
 
 # Get the cookbooks
+## From opsworks-cookbooks/opsworks_custom_cookbooks/recipes/checkout.rb
+ensure_scm_package_installed(node[:tabula_rasa][:scm][:type]) unless node[:tabula_rasa][:scm][:type].nil?
 
-## From opsworks-cookbooks/opsworks_custom_cookbooks/recipes/load.rb
+prepare_git_checkouts(:user => node[:opsworks_custom_cookbooks][:user],
+                      :group => node[:opsworks_custom_cookbooks][:group],
+                      :home => node[:opsworks_custom_cookbooks][:home],
+                      :ssh_key => node[:tabula_rasa][:scm][:ssh_key]) if node[:tabula_rasa][:scm][:type].to_s == 'git'
+
+prepare_svn_checkouts(:user => node[:opsworks_custom_cookbooks][:user],
+                      :group => node[:opsworks_custom_cookbooks][:group],
+                      :home => node[:opsworks_custom_cookbooks][:home],
+                      :deploy => node[:tabula_rasa]) if node[:tabula_rasa][:scm][:type].to_s == 'svn'
+
+if node[:tabula_rasa][:scm][:type].to_s == 'archive'
+  repository = prepare_archive_checkouts(node[:tabula_rasa][:scm])
+  node.set[:tabula_rasa][:scm] = {
+    :type => 'git',
+    :repository => repository
+  }
+elsif node[:tabula_rasa][:scm][:type].to_s == 's3'
+  repository = prepare_s3_checkouts(node[:tabula_rasa][:scm])
+  node.set[:tabula_rasa][:scm] = {
+   :scm_type => 'git',
+   :repository => repository
+  }
+end
+
 case node[:tabula_rasa][:scm][:type]
 when 'git'
   git "Download Tabula-Rasa Cookbooks" do
