@@ -3,7 +3,7 @@ tabula_rasa
 
 Run community cookbooks from within AWS OpsWorks without clashing with the older versions in [opsworks-cookbooks](https://github.com/aws/opsworks-cookbooks). Recipes run from within Tabula Rasa will not have access to the opsworks-cookbooks (unless you include them in your repository) but they will see your Custom Stack JSON and all the Ohai settings added by the AWS OpsWorks Agent.
 
-Version 0.2.0 has been tested with Chef 11.10, on Ubuntu 12.04.
+Version 0.1.0 has been tested with Chef 11.10, on Ubuntu 12.04, and only supports Git and SVN repositories.
 
 Copyright &copy; 2014, Shlomo Swidler.
 
@@ -28,21 +28,21 @@ To update the Tabula Rasa cookbooks from their repository (and possibly re-run B
 The OpsWorks Custom Stack JSON should be used to specify the following items:
 
 ### Tabula Rasa cookbook repository
-The Tabula Rasa cookbook repository configuration is modeled after the same sets of attributes that control the OpsWorks Custom Cookbooks `node[:opsworks_custom_cookbooks][:scm]`
 ```
 { 
   "tabula_rasa": {
     "scm": {
-      "type":       "git", "svn", "s3", or "archive"
-      "repository": "Repository URL",
-      "revision":   "revision of the SVN or Git repo - HEAD is the default"
-      "user":       "OPTIONAL - Git or SVN user, or AWS Access Key for s3 repos"
-      "password":   "OPTIONAL - Git or SVN password, or AWS Secret Key for s3 repos",
-      "ssh_key":    "OPTIONAL - private ssh key for the Git repository. Defaults to the SSH Key in the Stack Settings."
+      "type":       "git" or "svn" (s3 or other archives TBD)
+      "repository": "Git or SVN URL",
+      "revision":   "revision of the repo - HEAD is the default"
+      "user":       "OPTIONAL - Git or SVN user"
+      "password":   "OPTIONAL - Git or SVN password"
     }
   }
 }
 ```
+
+The repository SSH key specified in the Stack Settings will be used, if necessary, to fetch the Tabula Rasa cookbooks.
 
 ### Tabula Rasa run lists
 ```
