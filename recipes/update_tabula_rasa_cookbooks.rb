@@ -9,4 +9,4 @@ directory site_cookbooks_dir do
   end
 end
 
-include_recipe "tabula_rasa::prapare_cookbooks"
+include_recipe "tabula_rasa::prepare_cookbooks"
