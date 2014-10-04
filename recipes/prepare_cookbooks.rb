@@ -27,7 +27,7 @@ if node[:tabula_rasa][:scm][:type].to_s == 'archive'
 elsif node[:tabula_rasa][:scm][:type].to_s == 's3'
   repository = prepare_s3_checkouts(node[:tabula_rasa][:scm])
   node.set[:tabula_rasa][:scm] = {
-   :scm_type => 'git',
+   :type => 'git',
    :repository => repository
   }
 end
