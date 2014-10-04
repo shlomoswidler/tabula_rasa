@@ -8,8 +8,9 @@ version          '0.1.0'
 
 supports "ubuntu", "= 12.04"
 
-depends "opsworks_berkshelf"
 depends "scm_helper"
+depends "opsworks_berkshelf"
+depends "opsworks_custom_cookbooks"
 
 recipe "default", "Sets up and runs"
 recipe "update_tabula_rasa_cookbooks", "Updates the Tabla Rasa cookbooks"
