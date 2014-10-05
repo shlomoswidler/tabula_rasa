@@ -7,6 +7,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.2.5'
 
 supports "ubuntu", ">= 12.04"
+supports "amazon", ">= 2014.03"
 
 depends "scm_helper"
 depends "opsworks_berkshelf"
