@@ -2,8 +2,6 @@ site_cookbooks_path = ::File.join(node[:tabula_rasa][:home_dir], 'site-cookbooks
 berkshelf_cookbooks_path = ::File.join(node[:tabula_rasa][:home_dir], 'berkshelf-cookbooks')
 merged_cookbooks_path = ::File.join(node[:tabula_rasa][:home_dir], 'merged-cookbooks')
 
-puts "tabula_rasa scm settings in the beginning: " + node[:tabula_rasa][:scm].inspect
-
 # Get the cookbooks
 ## From opsworks-cookbooks/opsworks_custom_cookbooks/recipes/checkout.rb
 ensure_scm_package_installed(node[:tabula_rasa][:scm][:type]) unless node[:tabula_rasa][:scm][:type].nil?
@@ -31,8 +29,6 @@ elsif node[:tabula_rasa][:scm][:type].to_s == 's3'
    :repository => repository
   }
 end
-
-puts "tabula_rasa scm settings after archive/s3 handling: " + node[:tabula_rasa][:scm].inspect
 
 case node[:tabula_rasa][:scm][:type]
 when 'git'
